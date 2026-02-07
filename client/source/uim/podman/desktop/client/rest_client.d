@@ -1,5 +1,6 @@
 module uim.podman.desktop.client.rest_client;
 
+import std.conv : to;
 import std.json : Json, parseJsonString;
 import std.string : endsWith, startsWith;
 import vibe.http.client : requestHTTP, HTTPClientRequest, HTTPClientResponse;
@@ -31,7 +32,7 @@ class PodmanWebClient {
     if (all) {
       path ~= "?all=true";
     }
-    auto response = requestJson(HTTPMethod.get, path);
+    auto response = requestJson(HTTPMethod.GET, path);
     RestContainer[] results;
     if (response.data.isArray) {
       foreach (item; response.data.toArray) {
@@ -42,7 +43,7 @@ class PodmanWebClient {
   }
 
   RestContainer getContainer(string idOrName) {
-    auto response = requestJson(HTTPMethod.get, "/containers/" ~ idOrName);
+    auto response = requestJson(HTTPMethod.GET, "/containers/" ~ idOrName);
     return RestContainer.fromJson(response.data);
   }
 
@@ -51,41 +52,41 @@ class PodmanWebClient {
       "name": Json(name),
       "config": configJson
     ]);
-    auto response = requestJson(HTTPMethod.post, "/containers", payload);
-    return response.data.hasKey("id") ? response.data["id"].toString : "";
+    auto response = requestJson(HTTPMethod.POST, "/containers", payload);
+    return response.data.hasKey("id") ? response.data["id"].getString : "";
   }
 
   void startContainer(string idOrName) {
-    requestJson(HTTPMethod.post, "/containers/" ~ idOrName ~ "/start");
+    requestJson(HTTPMethod.POST, "/containers/" ~ idOrName ~ "/start");
   }
 
   void stopContainer(string idOrName, int timeout = 10) {
-    requestJson(HTTPMethod.post, "/containers/" ~ idOrName ~ "/stop?timeout=" ~ timeout.toString);
+    requestJson(HTTPMethod.POST, "/containers/" ~ idOrName ~ "/stop?timeout=" ~ to!string(timeout));
   }
 
   void removeContainer(string idOrName, bool force = false, bool removeVolumes = false) {
     string path = "/containers/" ~ idOrName ~ "?force=" ~ (force ? "true" : "false") ~ "&volumes="
       ~ (removeVolumes ? "true" : "false");
-    requestJson(HTTPMethod.del, path);
+    requestJson(HTTPMethod.DELETE, path);
   }
 
   string getContainerLogs(string idOrName, bool stdout = true, bool stderr = false) {
     string path = "/containers/" ~ idOrName ~ "/logs?stdout=" ~ (stdout ? "true" : "false")
       ~ "&stderr=" ~ (stderr ? "true" : "false");
-    auto response = requestJson(HTTPMethod.get, path);
-    return response.data.hasKey("logs") ? response.data["logs"].toString : "";
+    auto response = requestJson(HTTPMethod.GET, path);
+    return response.data.hasKey("logs") ? response.data["logs"].getString : "";
   }
 
   void pauseContainer(string idOrName) {
-    requestJson(HTTPMethod.post, "/containers/" ~ idOrName ~ "/pause");
+    requestJson(HTTPMethod.POST, "/containers/" ~ idOrName ~ "/pause");
   }
 
   void unpauseContainer(string idOrName) {
-    requestJson(HTTPMethod.post, "/containers/" ~ idOrName ~ "/unpause");
+    requestJson(HTTPMethod.POST, "/containers/" ~ idOrName ~ "/unpause");
   }
 
   RestImage[] listImages() {
-    auto response = requestJson(HTTPMethod.get, "/images");
+    auto response = requestJson(HTTPMethod.GET, "/images");
     RestImage[] results;
     if (response.data.isArray) {
       foreach (item; response.data.toArray) {
@@ -100,15 +101,15 @@ class PodmanWebClient {
       "image": Json(image),
       "tag": Json(tag)
     ]);
-    requestJson(HTTPMethod.post, "/images/pull", payload);
+    requestJson(HTTPMethod.POST, "/images/pull", payload);
   }
 
   void removeImage(string image, bool force = false) {
-    requestJson(HTTPMethod.del, "/images/" ~ image ~ "?force=" ~ (force ? "true" : "false"));
+    requestJson(HTTPMethod.DELETE, "/images/" ~ image ~ "?force=" ~ (force ? "true" : "false"));
   }
 
   RestPod[] listPods() {
-    auto response = requestJson(HTTPMethod.get, "/pods");
+    auto response = requestJson(HTTPMethod.GET, "/pods");
     RestPod[] results;
     if (response.data.isArray) {
       foreach (item; response.data.toArray) {
@@ -119,7 +120,7 @@ class PodmanWebClient {
   }
 
   RestPod getPod(string nameOrId) {
-    auto response = requestJson(HTTPMethod.get, "/pods/" ~ nameOrId);
+    auto response = requestJson(HTTPMethod.GET, "/pods/" ~ nameOrId);
     return RestPod.fromJson(response.data);
   }
 
@@ -128,24 +129,24 @@ class PodmanWebClient {
       "name": Json(name),
       "config": configJson
     ]);
-    auto response = requestJson(HTTPMethod.post, "/pods", payload);
-    return response.data.hasKey("id") ? response.data["id"].toString : "";
+    auto response = requestJson(HTTPMethod.POST, "/pods", payload);
+    return response.data.hasKey("id") ? response.data["id"].getString : "";
   }
 
   void startPod(string nameOrId) {
-    requestJson(HTTPMethod.post, "/pods/" ~ nameOrId ~ "/start");
+    requestJson(HTTPMethod.POST, "/pods/" ~ nameOrId ~ "/start");
   }
 
   void stopPod(string nameOrId, int timeout = 10) {
-    requestJson(HTTPMethod.post, "/pods/" ~ nameOrId ~ "/stop?timeout=" ~ timeout.toString);
+    requestJson(HTTPMethod.POST, "/pods/" ~ nameOrId ~ "/stop?timeout=" ~ to!string(timeout));
   }
 
   void removePod(string nameOrId, bool force = false) {
-    requestJson(HTTPMethod.del, "/pods/" ~ nameOrId ~ "?force=" ~ (force ? "true" : "false"));
+    requestJson(HTTPMethod.DELETE, "/pods/" ~ nameOrId ~ "?force=" ~ (force ? "true" : "false"));
   }
 
   RestVolume[] listVolumes() {
-    auto response = requestJson(HTTPMethod.get, "/volumes");
+    auto response = requestJson(HTTPMethod.GET, "/volumes");
     RestVolume[] results;
     if (response.data.isArray) {
       foreach (item; response.data.toArray) {
@@ -169,16 +170,16 @@ class PodmanWebClient {
       payload["options"] = Json(optJson);
     }
 
-    auto response = requestJson(HTTPMethod.post, "/volumes", payload);
-    return response.data.hasKey("id") ? response.data["id"].toString : "";
+    auto response = requestJson(HTTPMethod.POST, "/volumes", payload);
+    return response.data.hasKey("id") ? response.data["id"].getString : "";
   }
 
   void removeVolume(string name, bool force = false) {
-    requestJson(HTTPMethod.del, "/volumes/" ~ name ~ "?force=" ~ (force ? "true" : "false"));
+    requestJson(HTTPMethod.DELETE, "/volumes/" ~ name ~ "?force=" ~ (force ? "true" : "false"));
   }
 
   RestNetwork[] listNetworks() {
-    auto response = requestJson(HTTPMethod.get, "/networks");
+    auto response = requestJson(HTTPMethod.GET, "/networks");
     RestNetwork[] results;
     if (response.data.isArray) {
       foreach (item; response.data.toArray) {
@@ -193,12 +194,12 @@ class PodmanWebClient {
       "name": Json(name),
       "driver": Json(driver)
     ]);
-    auto response = requestJson(HTTPMethod.post, "/networks", payload);
-    return response.data.hasKey("id") ? response.data["id"].toString : "";
+    auto response = requestJson(HTTPMethod.POST, "/networks", payload);
+    return response.data.hasKey("id") ? response.data["id"].getString : "";
   }
 
   void removeNetwork(string name) {
-    requestJson(HTTPMethod.del, "/networks/" ~ name);
+    requestJson(HTTPMethod.DELETE, "/networks/" ~ name);
   }
 
   private RestResponse requestJson(HTTPMethod method, string path, Json body = Json()) {
@@ -237,7 +238,7 @@ class PodmanWebClient {
     return result;
   }
 
-  private string buildUrl(string path) {
+  package string buildUrl(string path) {
     string baseUrl = config.baseUrl;
     if (baseUrl.endsWith("/")) {
       baseUrl = baseUrl[0 .. $ - 1];
@@ -253,4 +254,18 @@ class PodmanWebClient {
 
     return baseUrl ~ path;
   }
+}
+
+unittest {
+  auto config = PodmanWebClientConfig();
+  config.baseUrl = "http://localhost:8080/api/v1";
+  auto client = new PodmanWebClient(config);
+
+  assert(client.buildUrl("") == "http://localhost:8080/api/v1");
+  assert(client.buildUrl("containers") == "http://localhost:8080/api/v1/containers");
+  assert(client.buildUrl("/containers") == "http://localhost:8080/api/v1/containers");
+
+  config.baseUrl = "http://localhost:8080/api/v1/";
+  client = new PodmanWebClient(config);
+  assert(client.buildUrl("/containers") == "http://localhost:8080/api/v1/containers");
 }

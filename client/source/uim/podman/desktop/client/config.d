@@ -34,3 +34,9 @@ PodmanWebClientConfig defaultWebClientConfig() {
 
   return config;
 }
+
+unittest {
+  auto config = PodmanWebClientConfig();
+  assert(config.baseUrl.length > 0);
+  assert(config.timeoutSeconds > 0);
+}
