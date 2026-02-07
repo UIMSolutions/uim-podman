@@ -1,4 +1,4 @@
-module uim.podman.desktop.server.serialization;
+module uim.podman.server.serialization;
 
 import uim.podman.library;
 import uim.podman.library.helpers.general;

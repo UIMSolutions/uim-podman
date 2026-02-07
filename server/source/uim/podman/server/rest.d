@@ -1,4 +1,4 @@
-module uim.podman.desktop.server.rest;
+module uim.podman.server.rest;
 
 import std.conv : to;
 import std.exception : enforce;
@@ -7,8 +7,8 @@ import std.string : strip, toLower;
 import vibe.vibe;
 
 import uim.podman.library;
-import uim.podman.desktop.server.config;
-import uim.podman.desktop.server.serialization;
+import uim.podman.server.config;
+import uim.podman.server.serialization;
 
 @safe:
 
