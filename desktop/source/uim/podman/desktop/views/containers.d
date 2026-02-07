@@ -23,6 +23,7 @@ class ContainersView : ScrolledWindow {
     
     // Column indices
     enum {
+        COL_SELECT,
         COL_NAME,
         COL_ID,
         COL_IMAGE,
@@ -43,6 +44,7 @@ class ContainersView : ScrolledWindow {
     private void setupTreeView() {
         // Create list store
         listStore = new ListStore([
+            GType.BOOLEAN, // Selected (not displayed, for internal use)
             GType.STRING,  // Name
             GType.STRING,  // ID
             GType.STRING,  // Image
@@ -58,6 +60,7 @@ class ContainersView : ScrolledWindow {
         treeView.setSearchColumn(COL_NAME);
         
         // Add columns
+        addColumn("", COL_SELECT);
         addColumn("Name", COL_NAME);
         addColumn("ID", COL_ID);
         addColumn("Image", COL_IMAGE);

@@ -24,6 +24,7 @@ class VolumesView : ScrolledWindow {
     
     // Column indices
     enum {
+        COL_SELECT,
         COL_NAME,
         COL_DRIVER,
         COL_MOUNTPOINT,

@@ -23,6 +23,7 @@ class ImagesView : ScrolledWindow {
     
     // Column indices
     enum {
+        COL_SELECT,
         COL_REPOSITORY,
         COL_TAG,
         COL_ID,

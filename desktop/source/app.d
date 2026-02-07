@@ -23,6 +23,11 @@ class PodmanDesktopApp : Application {
     this() {
         super("de.uim.podman.desktop", GApplicationFlags.FLAGS_NONE);
         addOnActivate(&onActivate);
+        initialize();;
+    }
+
+    void initialize() {
+        uim.podman.desktop.windows.application = this;
     }
     
     private void onActivate(GioApplication app) {

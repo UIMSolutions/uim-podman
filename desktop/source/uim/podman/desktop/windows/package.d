@@ -7,4 +7,7 @@ module uim.podman.desktop.windows;
 
 public {
     import uim.podman.desktop.windows.main;
+    import gio.Application : GioApplication = Application;
 }
+
+GioApplication application;

@@ -22,6 +22,7 @@ class PodsView : ScrolledWindow {
     
     // Column indices
     enum {
+        COL_SELECT,
         COL_NAME,
         COL_ID,
         COL_STATUS,
