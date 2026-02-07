@@ -10,9 +10,9 @@ import uim.podman.desktop;
 /// Controller for volume view + model.
 class VolumeController {
     private VolumeModel model;
-    private VolumeListView view;
+    private VolumesView view;
 
-    this(VolumeModel model, VolumeListView view) {
+    this(VolumeModel model, VolumesView view) {
         this.model = model;
         this.view = view;
     }

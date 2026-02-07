@@ -10,9 +10,9 @@ import uim.podman.desktop;
 /// Controller for container view + model.
 class ContainerController {
     private ContainerModel model;
-    private ContainerListView view;
+    private ContainersView view;
 
-    this(ContainerModel model, ContainerListView view) {
+    this(ContainerModel model, ContainersView view) {
         this.model = model;
         this.view = view;
     }

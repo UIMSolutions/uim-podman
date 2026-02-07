@@ -12,7 +12,7 @@ import gtk.TreeSelection;
 alias PodSelectionHandler = void delegate(Pod);
 
 /// Pod list view with tree view
-class PodListView : ScrolledWindow {
+class PodsView : ScrolledWindow {
     private PodmanClient client;
     private TreeView treeView;
     private ListStore listStore;

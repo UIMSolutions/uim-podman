@@ -13,7 +13,7 @@ import gtk.TreeSelection;
 alias ImageSelectionHandler = void delegate(uim.podman.library.PodmanImage);
 
 /// Image list view with tree view
-class ImageListView : ScrolledWindow {
+class ImagesView : ScrolledWindow {
     private PodmanClient client;
     private TreeView treeView;
     private ListStore listStore;

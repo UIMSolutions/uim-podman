@@ -12,7 +12,7 @@ import gtk.TreeSelection;
 alias NetworkSelectionHandler = void delegate(Network);
 
 /// Network list view with tree view
-class NetworkListView : ScrolledWindow {
+class NetworksView : ScrolledWindow {
     private PodmanClient client;
     private TreeView treeView;
     private ListStore listStore;

@@ -10,9 +10,9 @@ import uim.podman.desktop;
 /// Controller for image view + model.
 class ImageController {
     private ImageModel model;
-    private ImageListView view;
+    private ImagesView view;
 
-    this(ImageModel model, ImageListView view) {
+    this(ImageModel model, ImagesView view) {
         this.model = model;
         this.view = view;
     }

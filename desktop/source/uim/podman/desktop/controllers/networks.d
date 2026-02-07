@@ -10,9 +10,9 @@ import uim.podman.desktop;
 /// Controller for network view + model.
 class NetworkController {
     private NetworkModel model;
-    private NetworkListView view;
+    private NetworksView view;
 
-    this(NetworkModel model, NetworkListView view) {
+    this(NetworkModel model, NetworksView view) {
         this.model = model;
         this.view = view;
     }

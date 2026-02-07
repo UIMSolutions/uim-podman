@@ -13,7 +13,7 @@ import gtk.TreeSelection;
 alias SelectionHandler = void delegate(uim.podman.library.PodmanContainer);
 
 /// Container list view with tree view
-class ContainerListView : ScrolledWindow {
+class ContainersView : ScrolledWindow {
     private PodmanClient client;
     private TreeView treeView;
     private ListStore listStore;

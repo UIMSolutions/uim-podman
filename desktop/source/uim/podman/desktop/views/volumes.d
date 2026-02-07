@@ -14,7 +14,7 @@ import gtk.TreeSelection;
 alias VolumeSelectionHandler = void delegate(Volume);
 
 /// Volume list view with tree view
-class VolumeListView : ScrolledWindow {
+class VolumesView : ScrolledWindow {
     private PodmanClient client;
     private TreeView treeView;
     private ListStore listStore;

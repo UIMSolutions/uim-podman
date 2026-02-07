@@ -11,11 +11,11 @@ import gtk.Application;
 /// Main application window
 class MainWindow : ApplicationWindow {
     private PodmanClient client;
-    private ContainerListView containerListView;
-    private ImageListView imageListView;
-    private PodListView podListView;
-    private VolumeListView volumeListView;
-    private NetworkListView networkListView;
+    private ContainersView containersView;
+    private ImagesView imagesView;
+    private PodsView podsView;
+    private VolumesView volumesView;
+    private NetworksView networksView;
     
     private Notebook notebook;
     private Statusbar statusbar;
@@ -27,7 +27,7 @@ class MainWindow : ApplicationWindow {
     this(Application app) {
         super(app);
         
-        setTitle("Podman Desktop Manager");
+        setTitle("UIM Podman Desktop Manager");
         setDefaultSize(1200, 800);
         
         // Initialize Podman client
@@ -60,25 +60,25 @@ class MainWindow : ApplicationWindow {
         notebook = new Notebook();
         
         // Container tab
-        containerListView = new ContainerListView(client);
-        containerListView.onSelectionChanged = &onContainerSelected;
-        notebook.appendPage(containerListView, new Label("Containers"));
+        containersView = new ContainersView(client);
+        containersView.onSelectionChanged = &onContainerSelected;
+        notebook.appendPage(containersView, new Label("Containers"));
         
         // Images tab
-        imageListView = new ImageListView(client);
-        notebook.appendPage(imageListView, new Label("Images"));
+        imagesView = new ImagesView(client);
+        notebook.appendPage(imagesView, new Label("Images"));
         
         // Pods tab
-        podListView = new PodListView(client);
-        notebook.appendPage(podListView, new Label("Pods"));
+        podsView = new PodsView(client);
+        notebook.appendPage(podsView, new Label("Pods"));
         
         // Volumes tab
-        volumeListView = new VolumeListView(client);
-        notebook.appendPage(volumeListView, new Label("Volumes"));
+        volumesView = new VolumesView(client);
+        notebook.appendPage(volumesView, new Label("Volumes"));
         
         // Networks tab
-        networkListView = new NetworkListView(client);
-        notebook.appendPage(networkListView, new Label("Networks"));
+        networksView = new NetworksView(client);
+        notebook.appendPage(networksView, new Label("Networks"));
         
         mainBox.packStart(notebook, true, true, 0);
         
@@ -201,19 +201,19 @@ class MainWindow : ApplicationWindow {
         try {
             final switch (notebook.getCurrentPage()) {
                 case 0:
-                    containerListView.refresh();
+                    containersView.refresh();
                     break;
                 case 1:
-                    imageListView.refresh();
+                    imagesView.refresh();
                     break;
                 case 2:
-                    podListView.refresh();
+                    podsView.refresh();
                     break;
                 case 3:
-                    volumeListView.refresh();
+                    volumesView.refresh();
                     break;
                 case 4:
-                    networkListView.refresh();
+                    networksView.refresh();
                     break;
             }
             statusbar.push(contextId, "Refreshed");
@@ -227,7 +227,7 @@ class MainWindow : ApplicationWindow {
     }
     
     private void startSelectedContainer() {
-        auto container = containerListView.getSelected();
+        auto container = containersView.getSelected();
         if (container.id.empty) return;
         
         try {
@@ -240,7 +240,7 @@ class MainWindow : ApplicationWindow {
     }
     
     private void stopSelectedContainer() {
-        auto container = containerListView.getSelected();
+        auto container = containersView.getSelected();
         if (container.id.empty) return;
         
         try {
@@ -253,7 +253,7 @@ class MainWindow : ApplicationWindow {
     }
     
     private void pauseSelectedContainer() {
-        auto container = containerListView.getSelected();
+        auto container = containersView.getSelected();
         if (container.id.empty) return;
         
         try {
@@ -266,7 +266,7 @@ class MainWindow : ApplicationWindow {
     }
     
     private void removeSelectedContainer() {
-        auto container = containerListView.getSelected();
+        auto container = containersView.getSelected();
         if (container.id.empty) return;
         
         auto dialog = new MessageDialog(
