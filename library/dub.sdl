@@ -12,6 +12,8 @@ targetType "library"
 
 // Dependencies
 dependency "uim-framework" version="*"
+dependency "vibe-d" version="~>0.9.0"
+dependency "vibe-core" version="~>1.28.0"
 
 // Configurations
 configuration "default" {
