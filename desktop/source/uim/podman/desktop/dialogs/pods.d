@@ -3,12 +3,15 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.
 * Authors: Ozan Nurettin Süel (aka UIManufaktur)
 *****************************************************************************************************************/
-module uim.podman.desktop.dialogs;
+module uim.podman.desktop.dialogs.pods;
 
-public {
-	import uim.podman.desktop.dialogs.containers;
-	import uim.podman.desktop.dialogs.images;
-	import uim.podman.desktop.dialogs.pods;
-	import uim.podman.desktop.dialogs.volumes;
-	import uim.podman.desktop.dialogs.networks;
+import uim.podman.desktop;
+
+/// Placeholder dialog class for pod operations.
+class PodDialog {
+    private PodmanClient client;
+
+    this(PodmanClient client) {
+        this.client = client;
+    }
 }

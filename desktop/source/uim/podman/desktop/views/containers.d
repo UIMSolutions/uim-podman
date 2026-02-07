@@ -8,6 +8,7 @@ module uim.podman.desktop.views.containers;
 import uim.podman.desktop;
 import std.algorithm : joiner;
 import std.conv : to;
+import gtk.TreeSelection;
 
 alias SelectionHandler = void delegate(Container);
 
@@ -80,8 +81,8 @@ class ContainerListView : ScrolledWindow {
     }
     
     private void onTreeSelectionChanged(TreeSelection selection) {
-        TreeIter iter;
-        if (selection.getSelected(iter)) {
+        TreeIter iter = selection.getSelected();
+        if (iter) {
             string name = listStore.getValueString(iter, COL_NAME);
             string id = listStore.getValueString(iter, COL_ID);
             string image = listStore.getValueString(iter, COL_IMAGE);

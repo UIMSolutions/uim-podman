@@ -5,4 +5,10 @@
 *****************************************************************************************************************/
 module uim.podman.desktop.controllers;
 
-// Controller modules will be added here
+public {
+	import uim.podman.desktop.controllers.containers;
+	import uim.podman.desktop.controllers.images;
+	import uim.podman.desktop.controllers.pods;
+	import uim.podman.desktop.controllers.volumes;
+	import uim.podman.desktop.controllers.networks;
+}

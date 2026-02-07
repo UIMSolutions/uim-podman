@@ -3,12 +3,22 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.
 * Authors: Ozan Nurettin Süel (aka UIManufaktur)
 *****************************************************************************************************************/
-module uim.podman.desktop.dialogs;
+module uim.podman.desktop.controllers.volumes;
 
-public {
-	import uim.podman.desktop.dialogs.containers;
-	import uim.podman.desktop.dialogs.images;
-	import uim.podman.desktop.dialogs.pods;
-	import uim.podman.desktop.dialogs.volumes;
-	import uim.podman.desktop.dialogs.networks;
+import uim.podman.desktop;
+
+/// Controller for volume view + model.
+class VolumeController {
+    private VolumeModel model;
+    private VolumeListView view;
+
+    this(VolumeModel model, VolumeListView view) {
+        this.model = model;
+        this.view = view;
+    }
+
+    void refresh() {
+        model.refresh();
+        view.refresh();
+    }
 }

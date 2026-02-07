@@ -8,6 +8,8 @@ module uim.podman.desktop.views.volumes;
 import uim.podman.desktop;
 import std.algorithm : joiner;
 import std.conv : to;
+import gtk.TreeSelection;
+
 
 alias VolumeSelectionHandler = void delegate(Volume);
 
@@ -74,8 +76,8 @@ class VolumeListView : ScrolledWindow {
     }
     
     private void onTreeSelectionChanged(TreeSelection selection) {
-        TreeIter iter;
-        if (selection.getSelected(iter)) {
+        TreeIter iter = selection.getSelected();
+        if (iter) {
             string name = listStore.getValueString(iter, COL_NAME);
             string driver = listStore.getValueString(iter, COL_DRIVER);
             string mountpoint = listStore.getValueString(iter, COL_MOUNTPOINT);

@@ -5,4 +5,10 @@
 *****************************************************************************************************************/
 module uim.podman.desktop.models;
 
-// Model modules will be added here
+public {
+	import uim.podman.desktop.models.containers;
+	import uim.podman.desktop.models.images;
+	import uim.podman.desktop.models.pods;
+	import uim.podman.desktop.models.volumes;
+	import uim.podman.desktop.models.networks;
+}
