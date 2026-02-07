@@ -10,7 +10,7 @@ import uim.podman.desktop;
 /// Image model for data management.
 class ImageModel {
     private PodmanClient client;
-    private uim.podman.Image[] items;
+    private uim.podman.library.PodmanImage[] items;
 
     this(PodmanClient client) {
         this.client = client;
@@ -24,7 +24,7 @@ class ImageModel {
         }
     }
 
-    uim.podman.Image[] getItems() {
+    uim.podman.library.PodmanImage[] getItems() {
         return items;
     }
 }

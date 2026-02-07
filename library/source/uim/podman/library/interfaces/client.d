@@ -14,10 +14,10 @@ mixin(ShowModule!());
 /// Interface for Podman API client implementations
 interface IPodmanClient {
   /// Lists all containers
-  Container[] listContainers(bool all = false);
+  PodmanContainer[] listContainers(bool all = false);
 
   /// Gets a single container by ID or name
-  Container getContainer(string idOrName);
+  PodmanContainer getContainer(string idOrName);
 
   /// Creates a new container
   string createContainer(string name, Json config);

@@ -10,7 +10,7 @@ import uim.podman.desktop;
 /// Container model for data management.
 class ContainerModel {
     private PodmanClient client;
-    private Container[] items;
+    private uim.podman.library.PodmanContainer[] items;
 
     this(PodmanClient client) {
         this.client = client;
@@ -24,7 +24,7 @@ class ContainerModel {
         }
     }
 
-    Container[] getItems() {
+    uim.podman.library.PodmanContainer[] getItems() {
         return items;
     }
 }

@@ -36,15 +36,15 @@ class PodmanClient : IPodmanClient {
   // Container operations
 
   /// Lists all containers.
-  Container[] listContainers(bool all = false) {
+  PodmanContainer[] listContainers(bool all = false) {
     enforce(!closed, "Client is closed");
 
     string cacheKey = "containers:" ~ (all ? "all" : "running");
     if (cache.has(cacheKey)) {
       Json cached = cache.get(cacheKey);
-      Container[] results;
+      PodmanContainer[] results;
       if (cached.isArray) {
-        results = cached.toArray.map!(item => Container(item)).array;
+        results = cached.toArray.map!(item => PodmanContainer(item)).array;
       }
       return results;
     }
@@ -58,22 +58,22 @@ class PodmanClient : IPodmanClient {
     enforce(response.success && response.statusCode == 200,
       createException(response.statusCode, "Failed to list containers", config.endpoint, path));
 
-    Container[] results;
+    PodmanContainer[] results;
     if (response.data.isArray) {
-      results = response.data.toArray.map!(item => Container(item)).array;
+      results = response.data.toArray.map!(item => PodmanContainer(item)).array;
       cache.set(cacheKey, response.data, config.cacheTtlSeconds);
     }
     return results;
   }
 
   /// Gets a single container by ID or name.
-  Container getContainer(string idOrName) {
+  PodmanContainer getContainer(string idOrName) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
     string cacheKey = "container:" ~ idOrName;
     if (cache.has(cacheKey)) {
-      return Container(cache.get(cacheKey));
+      return PodmanContainer(cache.get(cacheKey));
     }
 
     string path = "/" ~ config.apiVersion ~ "/containers/" ~ idOrName ~ "/json";
@@ -86,7 +86,7 @@ class PodmanClient : IPodmanClient {
       createException(response.statusCode, "Failed to get container", config.endpoint, path));
 
     cache.set(cacheKey, response.data, config.cacheTtlSeconds);
-    return Container(response.data);
+    return PodmanContainer(response.data);
   }
 
   /// Creates a new container.

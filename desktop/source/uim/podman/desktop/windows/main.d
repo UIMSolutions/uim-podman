@@ -222,7 +222,7 @@ class MainWindow : ApplicationWindow {
         }
     }
     
-    private void onContainerSelected(Container container) {
+    private void onContainerSelected(uim.podman.library.PodmanContainer container) {
         statusbar.push(contextId, "Selected: " ~ container.name);
     }
     
@@ -292,14 +292,14 @@ class MainWindow : ApplicationWindow {
     }
     
     private void showNewContainerDialog() {
-        auto dialog = new NewContainerDialog(this, client);
-        auto response = dialog.run();
-        
-        if (response == GtkResponseType.OK) {
-            refreshAll();
-        }
-        
-        dialog.destroy();
+        // TODO: auto dialog = new NewContainerDialog(this, client);
+        // TODO: auto response = dialog.run();
+        // TODO: 
+        // TODO: if (response == GtkResponseType.OK) {
+        // TODO:     refreshAll();
+        // TODO: }
+        // TODO: 
+        // TODO: dialog.destroy();
     }
     
     private void showAboutDialog() {

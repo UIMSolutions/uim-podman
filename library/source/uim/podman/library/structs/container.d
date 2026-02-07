@@ -12,7 +12,7 @@ mixin(ShowModule!());
 @safe:
 
 /// Represents a Podman container.
-struct Container {
+struct PodmanContainer {
   string id;
   string name;
   string image;

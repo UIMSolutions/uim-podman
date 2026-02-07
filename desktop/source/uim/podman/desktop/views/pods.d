@@ -77,8 +77,8 @@ class PodListView : ScrolledWindow {
     }
     
     private void onTreeSelectionChanged(TreeSelection selection) {
-        TreeIter iter;
-        if (selection.getSelected(iter)) {
+        TreeIter iter = selection.getSelected();
+        if (iter) {
             string name = listStore.getValueString(iter, COL_NAME);
             string id = listStore.getValueString(iter, COL_ID);
             string status = listStore.getValueString(iter, COL_STATUS);

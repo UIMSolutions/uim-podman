@@ -10,14 +10,14 @@ import std.datetime.systime : SysTime;
 import std.string : lastIndexOf;
 import gtk.TreeSelection;
 
-alias ImageSelectionHandler = void delegate(uim.podman.Image);
+alias ImageSelectionHandler = void delegate(uim.podman.library.PodmanImage);
 
 /// Image list view with tree view
 class ImageListView : ScrolledWindow {
     private PodmanClient client;
     private TreeView treeView;
     private ListStore listStore;
-    private uim.podman.Image selectedImage;
+    private uim.podman.library.PodmanImage selectedImage;
     
     ImageSelectionHandler onSelectionChanged;
     
@@ -78,14 +78,14 @@ class ImageListView : ScrolledWindow {
     }
     
     private void onTreeSelectionChanged(TreeSelection selection) {
-        TreeIter iter;
-        if (selection.getSelected(iter)) {
+        TreeIter iter = selection.getSelected;
+        if (iter) {
             string repository = listStore.getValueString(iter, COL_REPOSITORY);
             string tag = listStore.getValueString(iter, COL_TAG);
             string imageId = listStore.getValueString(iter, COL_ID);
             
             // Store minimal image info
-            selectedImage = uim.podman.Image();
+            selectedImage = uim.podman.library.PodmanImage();
             selectedImage.id = imageId;
             selectedImage.repoTags = [repository ~ ":" ~ tag];
             
@@ -141,7 +141,7 @@ class ImageListView : ScrolledWindow {
         }
     }
     
-    uim.podman.Image getSelected() {
+    uim.podman.library.PodmanImage getSelected() {
         return selectedImage;
     }
     

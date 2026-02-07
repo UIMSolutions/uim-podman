@@ -10,14 +10,14 @@ import std.algorithm : joiner;
 import std.conv : to;
 import gtk.TreeSelection;
 
-alias SelectionHandler = void delegate(Container);
+alias SelectionHandler = void delegate(uim.podman.library.PodmanContainer);
 
 /// Container list view with tree view
 class ContainerListView : ScrolledWindow {
     private PodmanClient client;
     private TreeView treeView;
     private ListStore listStore;
-    private Container selectedContainer;
+    private uim.podman.library.PodmanContainer selectedContainer;
     
     SelectionHandler onSelectionChanged;
     
@@ -81,16 +81,16 @@ class ContainerListView : ScrolledWindow {
     }
     
     private void onTreeSelectionChanged(TreeSelection selection) {
-        TreeIter iter;
-        if (selection.getSelected(iter)) {
+        TreeIter iter = selection.getSelected;
+        if (iter) {
             string name = listStore.getValueString(iter, COL_NAME);
             string id = listStore.getValueString(iter, COL_ID);
             string image = listStore.getValueString(iter, COL_IMAGE);
             string status = listStore.getValueString(iter, COL_STATUS);
             string state = listStore.getValueString(iter, COL_STATE);
             
-            // Create a minimal Container struct with the displayed data
-            selectedContainer = Container();
+            // Create a minimal PodmanContainer struct with the displayed data
+            selectedContainer = uim.podman.library.PodmanContainer();
             selectedContainer.name = name;
             selectedContainer.id = id;
             selectedContainer.image = image;
@@ -123,7 +123,7 @@ class ContainerListView : ScrolledWindow {
         }
     }
     
-    Container getSelected() {
+    uim.podman.library.PodmanContainer getSelected() {
         return selectedContainer;
     }
     
