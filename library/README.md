@@ -73,6 +73,46 @@ dub build --configuration=tests
 dub test
 ```
 
+## Server (REST API)
+
+```bash
+UIM_PODMAN_API_TOKEN=devtoken \
+dub run :server --config=app
+```
+
+Optional CORS:
+
+```bash
+UIM_PODMAN_API_TOKEN=devtoken \
+UIM_PODMAN_CORS_ORIGINS=http://localhost:5173 \
+dub run :server --config=app
+```
+
+Curl example:
+
+```bash
+curl -H "Authorization: Bearer devtoken" \
+  http://127.0.0.1:8080/api/v1/containers
+```
+
+Create container:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer devtoken" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"demo","config":{"Image":"alpine:latest","Cmd":["sleep","60"]}}' \
+  http://127.0.0.1:8080/api/v1/containers
+```
+
+Start container:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer devtoken" \
+  http://127.0.0.1:8080/api/v1/containers/demo/start
+```
+
 ## Dependencies
 
 - `uim-framework` - Core UIM framework

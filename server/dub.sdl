@@ -1,31 +1,36 @@
 // Metadata
 name "server"
-description "GTK server Application for Podman Container Management"
+description "REST server library for Podman Container Management"
 authors "Ozan Nurettin Süel"
 copyright "Copyright © 2018 - 2026, ONS"
 license "Apache-2.0"
 
 // Target
 targetName "uim-podman-server"
-targetType "executable"
+targetType "library"
 
 // Dependencies
 dependency "uim-framework" version="*"
 dependency "uim-podman:library" path="../library"
-dependency "gtk-d" version="~>3.10.0"
+dependency "vibe-d" version="~>0.10.0"
+dependency "vibe-core" version="~>2.13.0"
 
 // Configurations
 configuration "default" {
+  targetType "library"
+}
+
+configuration "app" {
   targetType "executable"
+  versions "SERVER_APP"
 }
 
 configuration "debug" {
-  targetType "executable"
+  targetType "library"
   buildOptions "debugMode" "debugInfo"
-  versions "GTK_DEBUG"
 }
 
 configuration "release" {
-  targetType "executable"
+  targetType "library"
   buildOptions "releaseMode" "optimize" "inline"
 }
