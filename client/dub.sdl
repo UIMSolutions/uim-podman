@@ -1,0 +1,31 @@
+// Metadata
+name "client"
+description "GTK client Application for Podman Container Management"
+authors "Ozan Nurettin Süel"
+copyright "Copyright © 2018 - 2026, ONS"
+license "Apache-2.0"
+
+// Target
+targetName "uim-podman-client"
+targetType "executable"
+
+// Dependencies
+dependency "uim-framework" version="*"
+dependency "uim-podman:library" path="../library"
+dependency "gtk-d" version="~>3.10.0"
+
+// Configurations
+configuration "default" {
+  targetType "executable"
+}
+
+configuration "debug" {
+  targetType "executable"
+  buildOptions "debugMode" "debugInfo"
+  versions "GTK_DEBUG"
+}
+
+configuration "release" {
+  targetType "executable"
+  buildOptions "releaseMode" "optimize" "inline"
+}
