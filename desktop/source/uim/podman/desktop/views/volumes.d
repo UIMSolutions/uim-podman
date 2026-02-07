@@ -77,7 +77,7 @@ class VolumeListView : ScrolledWindow {
     
     private void onTreeSelectionChanged(TreeSelection selection) {
         TreeIter iter = selection.getSelected();
-        if (iter) {
+        if (iter !is null) {
             string name = listStore.getValueString(iter, COL_NAME);
             string driver = listStore.getValueString(iter, COL_DRIVER);
             string mountpoint = listStore.getValueString(iter, COL_MOUNTPOINT);

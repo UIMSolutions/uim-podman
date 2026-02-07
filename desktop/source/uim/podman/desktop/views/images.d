@@ -78,8 +78,8 @@ class ImageListView : ScrolledWindow {
     }
     
     private void onTreeSelectionChanged(TreeSelection selection) {
-        TreeIter iter = selection.getSelected;
-        if (iter) {
+        TreeIter iter = selection.getSelected();
+        if (iter !is null) {
             string repository = listStore.getValueString(iter, COL_REPOSITORY);
             string tag = listStore.getValueString(iter, COL_TAG);
             string imageId = listStore.getValueString(iter, COL_ID);

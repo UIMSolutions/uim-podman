@@ -75,7 +75,7 @@ class NetworkListView : ScrolledWindow {
     
     private void onTreeSelectionChanged(TreeSelection selection) {
         TreeIter iter = selection.getSelected();
-        if (iter) {
+        if (iter !is null) {
             string name = listStore.getValueString(iter, COL_NAME);
             string id = listStore.getValueString(iter, COL_ID);
             string driver = listStore.getValueString(iter, COL_DRIVER);

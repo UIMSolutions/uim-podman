@@ -31,14 +31,14 @@ class MainWindow : ApplicationWindow {
         setDefaultSize(1200, 800);
         
         // Initialize Podman client
-        try {
-            auto config = autoDetectConfig();
-            client = new PodmanClient(config);
-            statusbar.push(contextId, "Connected to Podman daemon");
-        } catch (Exception ex) {
-            statusbar.push(contextId, "Failed to connect: " ~ ex.msg);
-        }
-        
+         try {
+             auto config = autoDetectConfig();
+             client = new PodmanClient(config);
+             // statusbar.push(contextId, "Connected to Podman daemon");
+         } catch (Exception ex) {
+             // statusbar.push(contextId, "Failed to connect: " ~ ex.msg);
+         }
+         
         setupUI();
         setupAutoRefresh();
         
@@ -47,11 +47,11 @@ class MainWindow : ApplicationWindow {
     
     private void setupUI() {
         auto mainBox = new Box(Orientation.VERTICAL, 0);
-        
+         
         // Menu bar
-        auto menuBar = createMenuBar();
+ auto menuBar = createMenuBar();
         mainBox.packStart(menuBar, false, false, 0);
-        
+         
         // Toolbar
         toolbar = createToolbar();
         mainBox.packStart(toolbar, false, false, 0);
@@ -88,7 +88,7 @@ class MainWindow : ApplicationWindow {
         mainBox.packStart(statusbar, false, false, 0);
         
         add(mainBox);
-    }
+    }// 
     
     private MenuBar createMenuBar() {
         auto menuBar = new MenuBar();
@@ -292,14 +292,14 @@ class MainWindow : ApplicationWindow {
     }
     
     private void showNewContainerDialog() {
-        // TODO: auto dialog = new NewContainerDialog(this, client);
-        // TODO: auto response = dialog.run();
-        // TODO: 
-        // TODO: if (response == GtkResponseType.OK) {
-        // TODO:     refreshAll();
-        // TODO: }
-        // TODO: 
-        // TODO: dialog.destroy();
+        auto dialog = new ContainerDialog(this, client);
+        auto response = dialog.run();
+        
+        if (response == GtkResponseType.OK) {
+            refreshAll();
+        }
+        
+        dialog.destroy();
     }
     
     private void showAboutDialog() {
@@ -308,7 +308,7 @@ class MainWindow : ApplicationWindow {
             GtkDialogFlags.MODAL,
             GtkMessageType.INFO,
             GtkButtonsType.OK,
-            "Podman Desktop Manager\n\nA GTK application for managing Podman containers\n\n© 2026 UIManufaktur"
+            "Podman Desktop Manager\n\nA GTK application for managing Podman containers based on D Language\n\n© 2026 Ozan Nurettin Süel"
         );
         dialog.run();
         dialog.destroy();
