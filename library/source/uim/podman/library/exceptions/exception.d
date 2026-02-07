@@ -11,16 +11,16 @@ class PodmanException : Exception {
   Json errorData;
 
   this(string msg, int statusCode = 0, string endpoint = "", string requestPath = "") 
-    @safe {
+    {
     super(msg);
     this.statusCode = statusCode;
     this.endpoint = endpoint;
     this.requestPath = requestPath;
   }
 
-  override string toString() const @safe {
+  override string toString() {
     if (statusCode == 0) {
-      return super.toString();
+      return ""; // TODO: super.toString();
     }
     return format("PodmanException[%d]: %s (endpoint: %s, path: %s)", 
       statusCode, msg, endpoint, requestPath);

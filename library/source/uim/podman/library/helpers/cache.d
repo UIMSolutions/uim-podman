@@ -19,12 +19,12 @@ struct CacheEntry {
   uint ttlSeconds;
 
   /// Check if cache entry is still valid
-  bool isValid(uint currentTime) const @safe {
+  bool isValid(uint currentTime) const {
     return (currentTime - timestamp) < ttlSeconds;
   }
 
   /// Get age of cache entry in seconds
-  uint getAge(uint currentTime) const @safe {
+  uint getAge(uint currentTime) const {
     return cast(uint)(currentTime - timestamp);
   }
 }
@@ -35,13 +35,13 @@ class ResponseCache {
   private uint maxSize = 1000;
   private bool enabled = true;
 
-  this(uint maxSize = 1000, bool enabled = true) @safe {
+  this(uint maxSize = 1000, bool enabled = true) {
     this.maxSize = maxSize;
     this.enabled = enabled;
   }
 
   /// Get value from cache
-  Json get(string key) @safe {
+  Json get(string key) {
     if (!enabled || key !in cache) {
       return Json();
     }
@@ -56,7 +56,7 @@ class ResponseCache {
   }
 
   /// Check if key exists in cache and is valid
-  bool has(string key) @safe {
+  bool has(string key) {
     if (!enabled || key !in cache) {
       return false;
     }
@@ -71,7 +71,7 @@ class ResponseCache {
   }
 
   /// Set value in cache
-  void set(string key, Json data, uint ttlSeconds) @safe {
+  void set(string key, Json data, uint ttlSeconds) {
     if (!enabled) return;
 
     // Evict oldest entry if cache is full
@@ -83,22 +83,22 @@ class ResponseCache {
   }
 
   /// Clear specific cache entry
-  void invalidate(string key) @safe {
+  void invalidate(string key) {
     cache.remove(key);
   }
 
   /// Clear all cache entries
-  void clear() @safe {
+  void clear() {
     cache.clear();
   }
 
   /// Get cache statistics
-  CacheStats getStats() const @safe {
+  CacheStats getStats() const {
     return CacheStats(cache.length, maxSize, enabled);
   }
 
   /// Enable/disable cache
-  void setEnabled(bool value) @safe {
+  void setEnabled(bool value) {
     enabled = value;
     if (!value) {
       cache.clear();
@@ -107,7 +107,7 @@ class ResponseCache {
 
 private:
   /// Evict oldest entry from cache
-  void evictOldest() @safe {
+  void evictOldest() {
     uint currentTime = getCurrentTime();
     string oldestKey = "";
     uint oldestAge = 0;
@@ -126,7 +126,7 @@ private:
   }
 
   /// Get current time in seconds
-  uint getCurrentTime() const @safe {
+  uint getCurrentTime() const {
     // Would use core.time in real implementation
     // For now, return a placeholder
     return 0;
@@ -135,21 +135,21 @@ private:
 
 /// Cache statistics
 struct CacheStats {
-  uint size;
-  uint maxSize;
+  size_t size;
+  size_t maxSize;
   bool enabled;
 
-  double hitRate() const @safe {
+  double hitRate() const {
     return (cast(double)size / cast(double)maxSize) * 100.0;
   }
 
-  string toString() const @safe {
+  string toString() const {
     return format("CacheStats(size=%d, maxSize=%d, enabled=%s, usage=%.1f%%)", 
       size, maxSize, enabled ? "true" : "false", hitRate());
   }
 }
 
 /// Create a new response cache
-ResponseCache createCache(uint maxSize = 1000, bool enabled = true) @safe {
+ResponseCache createCache(uint maxSize = 1000, bool enabled = true) {
   return new ResponseCache(maxSize, enabled);
 }

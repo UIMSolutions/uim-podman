@@ -17,19 +17,19 @@ class ContainerBuilder {
   private string name = "";
 
   /// Sets container name
-  ref ContainerBuilder withName(string name) return @safe {
+  ContainerBuilder withName(string name) {
     this.name = name;
     return this;
   }
 
   /// Sets container image
-  ref ContainerBuilder withImage(string image) return @safe {
+  ContainerBuilder withImage(string image) {
     config["Image"] = Json(image);
     return this;
   }
 
   /// Sets container environment variables
-  ref ContainerBuilder withEnv(string[string] env) return @safe {
+  ContainerBuilder withEnv(string[string] env) {
     Json[] envArray;
     foreach (key, value; env) {
       envArray ~= Json(key ~ "=" ~ value);
@@ -39,25 +39,25 @@ class ContainerBuilder {
   }
 
   /// Sets container working directory
-  ref ContainerBuilder withWorkDir(string dir) return @safe {
+  ContainerBuilder withWorkDir(string dir) {
     config["WorkingDir"] = Json(dir);
     return this;
   }
 
   /// Sets container entrypoint
-  ref ContainerBuilder withEntrypoint(string[] cmd) return @safe {
-    config["Entrypoint"] = Json(cmd);
+  ContainerBuilder withEntrypoint(string[] cmd) {
+    config["Entrypoint"] = cmd.toJson;
     return this;
   }
 
   /// Sets container command
-  ref ContainerBuilder withCommand(string[] cmd) return @safe {
-    config["Cmd"] = Json(cmd);
+  ContainerBuilder withCommand(string[] cmd) {
+    config["Cmd"] = cmd.toJson;
     return this;
   }
 
   /// Exposes a port
-  ref ContainerBuilder exposePort(ushort port) return @safe {
+  ContainerBuilder exposePort(ushort port) {
     Json[string] exposed;
     if (config.hasKey("ExposedPorts")) {
       exposed = config["ExposedPorts"].toMap;
@@ -68,7 +68,7 @@ class ContainerBuilder {
   }
 
   /// Mounts a volume
-  ref ContainerBuilder mountVolume(string src, string dest, string mode = "rw") return @safe {
+  ContainerBuilder mountVolume(string src, string dest, string mode = "rw") {
     Json[] binds;
     if (config.hasKey("HostConfig") && config["HostConfig"].hasKey("Binds")) {
       binds = config["HostConfig"]["Binds"].toArray;
@@ -83,7 +83,7 @@ class ContainerBuilder {
   }
 
   /// Sets resource limits
-  ref ContainerBuilder withMemoryLimit(ulong bytes) return @safe {
+  ContainerBuilder withMemoryLimit(ulong bytes) {
     if (!config.hasKey("HostConfig")) {
       config["HostConfig"] = Json.emptyObject();
     }
@@ -92,7 +92,7 @@ class ContainerBuilder {
   }
 
   /// Sets CPU limit
-  ref ContainerBuilder withCpuLimit(double cpus) return @safe {
+  ContainerBuilder withCpuLimit(double cpus) {
     if (!config.hasKey("HostConfig")) {
       config["HostConfig"] = Json.emptyObject();
     }
@@ -102,7 +102,7 @@ class ContainerBuilder {
   }
 
   /// Adds a label
-  ref ContainerBuilder withLabel(string key, string value) return @safe {
+  ContainerBuilder withLabel(string key, string value) {
     Json[string] labels;
     if (config.hasKey("Labels")) {
       labels = config["Labels"].toMap;
@@ -113,7 +113,7 @@ class ContainerBuilder {
   }
 
   /// Gets the configuration JSON
-  Json build() @safe {
+  Json build() {
     if (!name.empty) {
       config["name"] = Json(name);
     }
@@ -121,7 +121,7 @@ class ContainerBuilder {
   }
 
   /// Gets the configuration JSON and name as tuple
-  auto buildWithName() @safe {
+  auto buildWithName() {
     return tuple(name, build());
   }
 }
@@ -131,24 +131,24 @@ class PodBuilder {
   private Json config;
   private string name = "";
 
-  this() @safe {
+  this() {
     config = Json();
   }
 
   /// Sets pod name
-  ref PodBuilder withName(string name) return @safe {
+  PodBuilder withName(string name) {
     this.name = name;
     return this;
   }
 
   /// Sets pod infra image
-  ref PodBuilder withInfraImage(string image) return @safe {
+  PodBuilder withInfraImage(string image) {
     config["InfraImage"] = Json(image);
     return this;
   }
 
   /// Adds a label
-  ref PodBuilder withLabel(string key, string value) return @safe {
+  PodBuilder withLabel(string key, string value) {
     Json[string] labels;
     if (config.hasKey("Labels")) {
       labels = config["Labels"].toMap;
@@ -159,13 +159,13 @@ class PodBuilder {
   }
 
   /// Publishes a port
-  ref PodBuilder publishPort(ushort containerPort, ushort hostPort = 0) return @safe {
+  PodBuilder publishPort(ushort containerPort, ushort hostPort = 0) {
     // Port publication configuration
     return this;
   }
 
   /// Gets the configuration JSON
-  Json build() @safe {
+  Json build() {
     if (!name.empty) {
       config["name"] = Json(name);
     }
@@ -173,17 +173,17 @@ class PodBuilder {
   }
 
   /// Gets the configuration JSON and name as tuple
-  auto buildWithName() @safe {
+  auto buildWithName() {
     return tuple(name, build());
   }
 }
 
 /// Create a new container builder
-ContainerBuilder containerBuilder() @safe {
+ContainerBuilder containerBuilder() {
   return new ContainerBuilder();
 }
 
 /// Create a new pod builder
-PodBuilder podBuilder() @safe {
+PodBuilder podBuilder() {
   return new PodBuilder();
 }

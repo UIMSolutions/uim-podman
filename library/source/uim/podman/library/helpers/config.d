@@ -12,7 +12,7 @@ mixin(ShowModule!());
 @safe:
 
 /// Creates a config for local Unix socket connection (default).
-PodmanConfig defaultConfig() @safe {
+PodmanConfig defaultConfig() {
   return PodmanConfig.builder()
     .withEndpoint("unix:///run/podman/podman.sock")
     .withApiVersion("v4.0.0")
@@ -21,7 +21,7 @@ PodmanConfig defaultConfig() @safe {
 }
 
 /// Creates a config for system-wide Unix socket connection.
-PodmanConfig systemConfig() @safe {
+PodmanConfig systemConfig() {
   return PodmanConfig.builder()
     .withEndpoint("unix:///run/podman/podman.sock")
     .withApiVersion("v4.0.0")
@@ -31,7 +31,7 @@ PodmanConfig systemConfig() @safe {
 }
 
 /// Creates a config for TCP connection.
-PodmanConfig tcpConfig(string host = "127.0.0.1", ushort port = 8080) @safe {
+PodmanConfig tcpConfig(string host = "127.0.0.1", ushort port = 8080) {
   return PodmanConfig.builder()
     .withEndpoint("http://" ~ host ~ ":" ~ to!string(port))
     .withApiVersion("v4.0.0")
@@ -40,7 +40,7 @@ PodmanConfig tcpConfig(string host = "127.0.0.1", ushort port = 8080) @safe {
 }
 
 /// Creates a config for secure TCP connection.
-PodmanConfig secureTcpConfig(string host, ushort port = 8081, string caCertPath = "") @safe {
+PodmanConfig secureTcpConfig(string host, ushort port = 8081, string caCertPath = "") {
   return PodmanConfig.builder()
     .withEndpoint("https://" ~ host ~ ":" ~ to!string(port))
     .withApiVersion("v4.0.0")
@@ -49,7 +49,7 @@ PodmanConfig secureTcpConfig(string host, ushort port = 8081, string caCertPath 
 }
 
 /// Creates a config for remote SSH connection.
-PodmanConfig sshConfig(string username, string host, ushort port = 22) @safe {
+PodmanConfig sshConfig(string username, string host, ushort port = 22) {
   return PodmanConfig.builder()
     .withEndpoint(format("ssh://%s@%s:%d/run/podman/podman.sock", username, host, port))
     .withApiVersion("v4.0.0")
@@ -58,21 +58,19 @@ PodmanConfig sshConfig(string username, string host, ushort port = 22) @safe {
 }
 
 /// Detects and creates appropriate config from environment or defaults.
-PodmanConfig autoDetectConfig() @safe {
+PodmanConfig autoDetectConfig() @trusted {
+  import std.process : environment;
+  
   // Check environment variables
-  void* podmanHost = getenvPtr("PODMAN_HOST");
-  if (podmanHost !is null) {
-    string endpoint = to!string(podmanHost);
+  if (auto podmanHost = environment.get("PODMAN_HOST", null)) {
     return PodmanConfig.builder()
-      .withEndpoint(endpoint)
+      .withEndpoint(podmanHost)
       .withApiVersion("v4.0.0")
       .build();
   }
 
   // Check for rootless socket
-  void* homePtr = getenvPtr("HOME");
-  if (homePtr !is null) {
-    string home = to!string(homePtr);
+  if (auto home = environment.get("HOME", null)) {
     string userSocket = home ~ "/.local/share/podman/podman.sock";
     // In a real implementation, check if file exists
     return PodmanConfig.builder()
@@ -87,7 +85,7 @@ PodmanConfig autoDetectConfig() @safe {
 }
 
 /// Creates a minimal config for quick testing
-PodmanConfig minimalConfig() @safe {
+PodmanConfig minimalConfig() {
   return PodmanConfig.builder()
     .withEndpoint("unix:///run/podman/podman.sock")
     .withApiVersion("v4.0.0")
@@ -97,7 +95,7 @@ PodmanConfig minimalConfig() @safe {
 }
 
 /// Creates a development config with caching and verbose logging
-PodmanConfig devConfig() @safe {
+PodmanConfig devConfig() {
   return PodmanConfig.builder()
     .withEndpoint("unix:///run/podman/podman.sock")
     .withApiVersion("v4.0.0")
@@ -106,10 +104,4 @@ PodmanConfig devConfig() @safe {
     .withVerbose(true)
     .withConnectionTimeout(45)
     .build();
-}
-
-/// Gets environment variable as string
-private void* getenvPtr(string name) @system nothrow {
-  import core.stdc.stdlib : getenv;
-  return getenv(toStringz(name));
 }

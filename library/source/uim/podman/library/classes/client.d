@@ -17,7 +17,7 @@ class PodmanClient : IPodmanClient {
   private bool closed;
 
   /// Initialize with configuration
-  this(PodmanConfig config) @safe {
+  this(PodmanConfig config) {
     enforce(config.validate(), "Invalid configuration");
     this.config = config;
     this.httpClient = new PodmanHttpClient(config);
@@ -26,7 +26,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Initialize with endpoint string
-  this(string endpoint, string apiVersion = "v4.0.0") @safe {
+  this(string endpoint, string apiVersion = "v4.0.0") {
     this(PodmanConfig.builder()
         .withEndpoint(endpoint)
         .withApiVersion(apiVersion)
@@ -36,7 +36,7 @@ class PodmanClient : IPodmanClient {
   // Container operations
 
   /// Lists all containers.
-  override Container[] listContainers(bool all = false) @safe {
+  override Container[] listContainers(bool all = false) {
     enforce(!closed, "Client is closed");
 
     string cacheKey = "containers:" ~ (all ? "all" : "running");
@@ -44,9 +44,7 @@ class PodmanClient : IPodmanClient {
       Json cached = cache.get(cacheKey);
       Container[] results;
       if (cached.isArray) {
-        foreach (item; cached.array) {
-          results ~= Container(item);
-        }
+        results = cached.toArray.map!(item => Container(item)).array;
       }
       return results;
     }
@@ -62,16 +60,14 @@ class PodmanClient : IPodmanClient {
 
     Container[] results;
     if (response.data.isArray) {
-      foreach (item; response.data.array) {
-        results ~= Container(item);
-      }
+      results = response.data.toArray.map!(item => Container(item)).array;
       cache.set(cacheKey, response.data, config.cacheTtlSeconds);
     }
     return results;
   }
 
   /// Gets a single container by ID or name.
-  override Container getContainer(string idOrName) @safe {
+  override Container getContainer(string idOrName) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -94,7 +90,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Creates a new container.
-  override string createContainer(string name, Json config_) @safe {
+  override string createContainer(string name, Json config_) {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Container name cannot be empty");
 
@@ -110,7 +106,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Starts a container.
-  override void startContainer(string idOrName) @safe {
+  override void startContainer(string idOrName) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -124,7 +120,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Stops a container.
-  override void stopContainer(string idOrName, int timeout = 10) @safe {
+  override void stopContainer(string idOrName, int timeout = 10) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -138,7 +134,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Removes a container.
-  override void removeContainer(string idOrName, bool force = false, bool removeVolumes = false) @safe {
+  override void removeContainer(string idOrName, bool force = false, bool removeVolumes = false) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -154,7 +150,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Gets container logs.
-  override string getContainerLogs(string idOrName, bool stdout = true, bool stderr = false) @safe {
+  override string getContainerLogs(string idOrName, bool stdout = true, bool stderr = false) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -168,7 +164,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Pauses a container.
-  override void pauseContainer(string idOrName) @safe {
+  override void pauseContainer(string idOrName) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -181,7 +177,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Unpauses a container.
-  override void unpauseContainer(string idOrName) @safe {
+  override void unpauseContainer(string idOrName) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -196,16 +192,14 @@ class PodmanClient : IPodmanClient {
   // Image operations
 
   /// Lists all images.
-  override Image[] listImages() @safe {
+  override Image[] listImages() {
     enforce(!closed, "Client is closed");
 
     if (cache.has("images:all")) {
       Json cached = cache.get("images:all");
       Image[] results;
       if (cached.isArray) {
-        foreach (item; cached.array) {
-          results ~= Image(item);
-        }
+        results = cached.toArray.map!(item => Image(item)).array;
       }
       return results;
     }
@@ -217,16 +211,14 @@ class PodmanClient : IPodmanClient {
 
     Image[] results;
     if (response.data.isArray) {
-      foreach (item; response.data.array) {
-        results ~= Image(item);
-      }
+      results = response.data.toArray.map!(item => Image(item)).array;
       cache.set("images:all", response.data, config.cacheTtlSeconds);
     }
     return results;
   }
 
   /// Pulls an image from a registry.
-  override void pullImage(string fromImage, string tag = "latest") @safe {
+  override void pullImage(string fromImage, string tag = "latest") {
     enforce(!closed, "Client is closed");
     enforce(!fromImage.empty, "Image name cannot be empty");
 
@@ -239,7 +231,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Removes an image.
-  override void removeImage(string image, bool force = false) @safe {
+  override void removeImage(string image, bool force = false) {
     enforce(!closed, "Client is closed");
     enforce(!image.empty, "Image name cannot be empty");
 
@@ -255,16 +247,14 @@ class PodmanClient : IPodmanClient {
   // Pod operations
 
   /// Lists all pods.
-  override Pod[] listPods() @safe {
+  override Pod[] listPods() {
     enforce(!closed, "Client is closed");
 
     if (cache.has("pods:all")) {
       Json cached = cache.get("pods:all");
       Pod[] results;
       if (cached.isArray) {
-        foreach (item; cached.array) {
-          results ~= Pod(item);
-        }
+        results = cached.toArray.map!(item => Pod(item)).array;
       }
       return results;
     }
@@ -276,16 +266,14 @@ class PodmanClient : IPodmanClient {
 
     Pod[] results;
     if (response.data.isArray) {
-      foreach (item; response.data.array) {
-        results ~= Pod(item);
-      }
+      results = response.data.toArray.map!(item => Pod(item)).array;
       cache.set("pods:all", response.data, config.cacheTtlSeconds);
     }
     return results;
   }
 
   /// Gets a pod by name or ID.
-  override Pod getPod(string nameOrId) @safe {
+  override Pod getPod(string nameOrId) {
     enforce(!closed, "Client is closed");
     enforce(!nameOrId.empty, "Pod name or ID cannot be empty");
 
@@ -308,7 +296,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Creates a new pod.
-  override string createPod(string name, Json config_) @safe {
+  override string createPod(string name, Json config_) {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Pod name cannot be empty");
 
@@ -322,7 +310,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Starts a pod.
-  override void startPod(string nameOrId) @safe {
+  override void startPod(string nameOrId) {
     enforce(!closed, "Client is closed");
     enforce(!nameOrId.empty, "Pod name or ID cannot be empty");
 
@@ -336,7 +324,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Stops a pod.
-  override void stopPod(string nameOrId, int timeout = 10) @safe {
+  override void stopPod(string nameOrId, int timeout = 10) {
     enforce(!closed, "Client is closed");
     enforce(!nameOrId.empty, "Pod name or ID cannot be empty");
 
@@ -350,7 +338,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Removes a pod.
-  override void removePod(string nameOrId, bool force = false) @safe {
+  override void removePod(string nameOrId, bool force = false) {
     enforce(!closed, "Client is closed");
     enforce(!nameOrId.empty, "Pod name or ID cannot be empty");
 
@@ -367,16 +355,14 @@ class PodmanClient : IPodmanClient {
   // Volume operations
 
   /// Lists all volumes.
-  override Volume[] listVolumes() @safe {
+  override Volume[] listVolumes() {
     enforce(!closed, "Client is closed");
 
     if (cache.has("volumes:all")) {
       Json cached = cache.get("volumes:all");
       Volume[] results;
       if (cached.hasKey("Volumes") && cached["Volumes"].isArray) {
-        foreach (item; cached["Volumes"].array) {
-          results ~= Volume(item);
-        }
+        results = cached["Volumes"].toArray.map!(item => Volume(item)).array;
       }
       return results;
     }
@@ -388,16 +374,14 @@ class PodmanClient : IPodmanClient {
 
     Volume[] results;
     if (response.data.isArray("Volumes")) {
-      foreach (item; response.data.getArray("Volumes")) {
-        results ~= Volume(item);
-      }
+      results = response.data["Volumes"].toArray.map!(item => Volume(item)).array;
       cache.set("volumes:all", response.data, config.cacheTtlSeconds);
     }
     return results;
   }
 
   /// Creates a volume.
-  override string createVolume(string name, string driver = "local", string[string] options = null) @safe {
+  override string createVolume(string name, string driver = "local", string[string] options = null) {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Volume name cannot be empty");
 
@@ -424,7 +408,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Removes a volume.
-  override void removeVolume(string name, bool force = false) @safe {
+  override void removeVolume(string name, bool force = false) {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Volume name cannot be empty");
 
@@ -440,16 +424,14 @@ class PodmanClient : IPodmanClient {
   // Network operations
 
   /// Lists all networks.
-  override Network[] listNetworks() @safe {
+  override Network[] listNetworks() {
     enforce(!closed, "Client is closed");
 
     if (cache.has("networks:all")) {
       Json cached = cache.get("networks:all");
       Network[] results;
       if (cached.isArray) {
-        foreach (item; cached.array) {
-          results ~= Network(item);
-        }
+        results = cached.toArray.map!(item => Network(item)).array;
       }
       return results;
     }
@@ -461,16 +443,14 @@ class PodmanClient : IPodmanClient {
 
     Network[] results;
     if (response.data.isArray) {
-      foreach (item; response.data.array) {
-        results ~= Network(item);
-      }
+      results = response.data.toArray.map!(item => Network(item)).array;
       cache.set("networks:all", response.data, config.cacheTtlSeconds);
     }
     return results;
   }
 
   /// Creates a network.
-  override string createNetwork(string name, string driver = "bridge") @safe {
+  override string createNetwork(string name, string driver = "bridge") {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Network name cannot be empty");
 
@@ -488,7 +468,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Removes a network.
-  override void removeNetwork(string name) @safe {
+  override void removeNetwork(string name) {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Network name cannot be empty");
 
@@ -503,7 +483,7 @@ class PodmanClient : IPodmanClient {
   // Resource management
 
   /// Close the client and release resources
-  void close() @safe {
+  void close() {
     if (!closed) {
       httpClient.close();
       cache.clear();
@@ -512,18 +492,19 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Check if client is closed
-  bool isClosed() const @safe {
+  bool isClosed() const {
     return closed;
   }
 
   /// Get cache statistics
-  CacheStats getCacheStats() const @safe {
+  CacheStats getCacheStats() const {
     return cache.getStats();
   }
 
   /// Clear cache
-  void clearCache() @safe {
+  void clearCache() {
     cache.clear();
   }
 
   /// Get configuration
+}

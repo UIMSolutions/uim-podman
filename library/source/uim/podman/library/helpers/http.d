@@ -23,7 +23,7 @@ struct HttpResponse {
   bool success;
 
   /// Check if response is successful (2xx status code)
-  bool isSuccess() const @safe {
+  bool isSuccess() const {
     return statusCode >= 200 && statusCode < 300;
   }
 }
@@ -33,35 +33,35 @@ class PodmanHttpClient {
   private PodmanConfig config;
   private bool closed;
 
-  this(PodmanConfig config) @safe {
+  this(PodmanConfig config) {
     enforce(!config.endpoint.empty, "Endpoint cannot be empty");
     this.config = config;
     this.closed = false;
   }
 
   /// Performs an HTTP GET request
-  HttpResponse get(string path, string[string] headers = null) @safe {
+  HttpResponse get(string path, string[string] headers = null) {
     return doRequest("GET", path, Json(), headers);
   }
 
   /// Performs an HTTP POST request
-  HttpResponse post(string path, Json body_, string[string] headers = null) @safe {
+  HttpResponse post(string path, Json body_, string[string] headers = null) {
     return doRequest("POST", path, body_, headers);
   }
 
   /// Performs an HTTP PUT request
-  HttpResponse put(string path, Json body_, string[string] headers = null) @safe {
+  HttpResponse put(string path, Json body_, string[string] headers = null) {
     return doRequest("PUT", path, body_, headers);
   }
 
   /// Performs an HTTP DELETE request
-  HttpResponse delete_(string path, string[string] headers = null) @safe {
+  HttpResponse delete_(string path, string[string] headers = null) {
     return doRequest("DELETE", path, Json(), headers);
   }
 
   /// Performs an HTTP request with retry logic
   HttpResponse doRequest(string method, string path, Json body_, 
-    string[string] headers = null, uint retryCount = 0) @safe {
+    string[string] headers = null, uint retryCount = 0) {
     
     HttpResponse response;
     
@@ -121,18 +121,18 @@ class PodmanHttpClient {
   }
 
   /// Closes the client and releases resources
-  void close() @safe {
+  void close() {
     closed = true;
   }
 
   /// Check if client is closed
-  bool isClosed() const @safe {
+  bool isClosed() const {
     return closed;
   }
 
 private:
   /// Builds a URL for Unix socket connection
-  string buildUnixSocketUrl(string endpoint, string path) @safe {
+  string buildUnixSocketUrl(string endpoint, string path) {
     // Remove unix:// prefix
     string socketPath = endpoint[7..$];
     // For Unix socket connections, we'd use local endpoint
@@ -141,7 +141,7 @@ private:
   }
 
   /// Gets default HTTP headers
-  string[string] getDefaultHeaders() @safe {
+  string[string] getDefaultHeaders() {
     string[string] headers;
     headers["Content-Type"] = "application/json";
     headers["Accept"] = "application/json";
@@ -150,22 +150,22 @@ private:
   }
 
   /// Logs an HTTP request
-  void logRequest(string method, string url, Json body_) @safe {
+  void logRequest(string method, string url, Json body_) {
     debug {
       import std.stdio : writeln;
       writeln(format("[HTTP] %s %s", method, url));
-      if (!body_.isNull && !body_.isEmpty) {
+      if (!body_.isNull)  { // TODO:  && !body_.isEmpty) {
         writeln(format("[HTTP] Body: %s", body_.toPrettyString));
       }
     }
   }
 
   /// Logs an HTTP response
-  void logResponse(const HttpResponse response) @safe {
+  void logResponse(const HttpResponse response) {
     debug {
       import std.stdio : writeln;
       writeln(format("[HTTP] Response: %d", response.statusCode));
-      if (!response.data.isNull && !response.data.isEmpty) {
+      if (!response.data.isNull) { // TODO: && !response.data.isEmpty) {
         writeln(format("[HTTP] Data: %s", response.data.toPrettyString));
       }
     }
@@ -173,6 +173,6 @@ private:
 }
 
 /// Helper to create an HTTP client
-PodmanHttpClient createHttpClient(PodmanConfig config) @safe {
+PodmanHttpClient createHttpClient(PodmanConfig config) {
   return new PodmanHttpClient(config);
 }
