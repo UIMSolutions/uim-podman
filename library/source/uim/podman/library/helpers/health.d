@@ -1,6 +1,6 @@
-module uim.podman.helpers.health;
+module uim.podman.library.helpers.health;
 
-import uim.podman;
+import uim.podman.library;
 
 mixin(ShowModule!());
 

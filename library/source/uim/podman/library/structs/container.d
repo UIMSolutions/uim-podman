@@ -3,9 +3,9 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.
 * Authors: Ozan Nurettin Süel (aka UIManufaktur)
 *****************************************************************************************************************/
-module uim.podman.structs.container;
+module uim.podman.library.structs.container;
 
-import uim.podman;
+import uim.podman.library;
 
 mixin(ShowModule!());
 

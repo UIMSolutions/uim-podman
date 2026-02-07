@@ -10,11 +10,11 @@ public {
 }
 
 public { // Package
-  import uim.podman.classes;
-  import uim.podman.errors;
-  import uim.podman.exceptions;
-  import uim.podman.helpers;
-  import uim.podman.interfaces;
-  import uim.podman.structs;
+  import uim.podman.library.classes;
+  import uim.podman.library.errors;
+  import uim.podman.library.exceptions;
+  import uim.podman.library.helpers;
+  import uim.podman.library.interfaces;
+  import uim.podman.library.structs;
 }
 

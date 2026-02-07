@@ -1,6 +1,6 @@
-module uim.podman.structs.network;
+module uim.podman.library.structs.network;
 
-import uim.podman;
+import uim.podman.library;
 
 mixin(ShowModule!());
 

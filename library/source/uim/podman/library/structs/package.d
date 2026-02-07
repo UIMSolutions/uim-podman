@@ -1,11 +1,11 @@
-module uim.podman.structs;
+module uim.podman.library.structs;
 
 public {
-    import uim.podman.structs.config;
-    import uim.podman.structs.container;
-    import uim.podman.structs.image;
-    import uim.podman.structs.log;
-    import uim.podman.structs.network;
-    import uim.podman.structs.pod;
-    import uim.podman.structs.volume;
+    import uim.podman.library.structs.config;
+    import uim.podman.library.structs.container;
+    import uim.podman.library.structs.image;
+    import uim.podman.library.structs.log;
+    import uim.podman.library.structs.network;
+    import uim.podman.library.structs.pod;
+    import uim.podman.library.structs.volume;
 }

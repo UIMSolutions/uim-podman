@@ -1,6 +1,6 @@
-module uim.podman.structs.volume;
+module uim.podman.library.structs.volume;
 
-import uim.podman;
+import uim.podman.library;
 
 mixin(ShowModule!());
 

@@ -1,6 +1,6 @@
-module uim.podman.helpers.socket;
+module uim.podman.library.helpers.socket;
 
-import uim.podman;
+import uim.podman.library;
 
 mixin(ShowModule!());
 

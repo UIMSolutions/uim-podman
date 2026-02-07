@@ -1,1 +1,1 @@
-module uim.podman.interfaces;
+module uim.podman.library.interfaces;

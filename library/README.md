@@ -32,7 +32,7 @@ dub build --configuration=tests
 ## Usage
 
 ```d
-import uim.podman;
+import uim.podman.library;
 
 void main() {
   auto config = defaultConfig();

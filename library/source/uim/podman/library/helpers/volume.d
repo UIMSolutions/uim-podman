@@ -1,6 +1,6 @@
-module uim.podman.helpers.volume;
+module uim.podman.library.helpers.volume;
 
-import uim.podman;
+import uim.podman.library;
 
 mixin(ShowModule!());
 

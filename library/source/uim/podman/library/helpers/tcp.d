@@ -1,6 +1,6 @@
-module uim.podman.helpers.tcp;
+module uim.podman.library.helpers.tcp;
 
-import uim.podman;
+import uim.podman.library;
 
 mixin(ShowModule!());
 

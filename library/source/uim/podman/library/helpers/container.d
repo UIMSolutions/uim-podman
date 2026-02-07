@@ -1,6 +1,6 @@
-module uim.podman.helpers.container;
+module uim.podman.library.helpers.container;
 
-import uim.podman;
+import uim.podman.library;
 
 mixin(ShowModule!());
 

@@ -3,7 +3,7 @@
 ## Basic Container Operations
 
 ```d
-import uim.podman;
+import uim.podman.library;
 
 void main() {
   // Create a client with default configuration (Unix socket)
@@ -21,7 +21,7 @@ void main() {
 ## Working with Images
 
 ```d
-import uim.podman;
+import uim.podman.library;
 
 void main() {
   auto config = defaultConfig();
@@ -41,7 +41,7 @@ void main() {
 ## Creating and Running Containers
 
 ```d
-import uim.podman;
+import uim.podman.library;
 import std.json : Json;
 
 void main() {
@@ -76,7 +76,7 @@ void main() {
 ## Pod Operations
 
 ```d
-import uim.podman;
+import uim.podman.library;
 
 void main() {
   auto config = defaultConfig();
@@ -104,7 +104,7 @@ void main() {
 ## Volume Management
 
 ```d
-import uim.podman;
+import uim.podman.library;
 
 void main() {
   auto config = defaultConfig();
@@ -130,7 +130,7 @@ void main() {
 ## Network Management
 
 ```d
-import uim.podman;
+import uim.podman.library;
 
 void main() {
   auto config = defaultConfig();
@@ -153,7 +153,7 @@ void main() {
 ## Container Logs
 
 ```d
-import uim.podman;
+import uim.podman.library;
 
 void main() {
   auto config = defaultConfig();
@@ -168,7 +168,7 @@ void main() {
 ## Advanced Container Configuration
 
 ```d
-import uim.podman;
+import uim.podman.library;
 import std.json : Json;
 
 void main() {
@@ -204,7 +204,7 @@ void main() {
 ## System-wide vs User Socket
 
 ```d
-import uim.podman;
+import uim.podman.library;
 
 void main() {
   // Use system socket (requires root/sudo)
@@ -221,7 +221,7 @@ void main() {
 ## TCP Connection
 
 ```d
-import uim.podman;
+import uim.podman.library;
 
 void main() {
   // For non-SSL connection
