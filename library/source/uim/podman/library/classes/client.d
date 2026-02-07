@@ -36,7 +36,7 @@ class PodmanClient : IPodmanClient {
   // Container operations
 
   /// Lists all containers.
-  override Container[] listContainers(bool all = false) {
+  Container[] listContainers(bool all = false) {
     enforce(!closed, "Client is closed");
 
     string cacheKey = "containers:" ~ (all ? "all" : "running");
@@ -67,7 +67,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Gets a single container by ID or name.
-  override Container getContainer(string idOrName) {
+  Container getContainer(string idOrName) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -90,7 +90,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Creates a new container.
-  override string createContainer(string name, Json config_) {
+  string createContainer(string name, Json config_) {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Container name cannot be empty");
 
@@ -106,7 +106,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Starts a container.
-  override void startContainer(string idOrName) {
+  void startContainer(string idOrName) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -120,7 +120,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Stops a container.
-  override void stopContainer(string idOrName, int timeout = 10) {
+  void stopContainer(string idOrName, int timeout = 10) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -134,7 +134,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Removes a container.
-  override void removeContainer(string idOrName, bool force = false, bool removeVolumes = false) {
+  void removeContainer(string idOrName, bool force = false, bool removeVolumes = false) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -150,7 +150,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Gets container logs.
-  override string getContainerLogs(string idOrName, bool stdout = true, bool stderr = false) {
+  string getContainerLogs(string idOrName, bool stdout = true, bool stderr = false) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -164,7 +164,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Pauses a container.
-  override void pauseContainer(string idOrName) {
+  void pauseContainer(string idOrName) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -177,7 +177,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Unpauses a container.
-  override void unpauseContainer(string idOrName) {
+  void unpauseContainer(string idOrName) {
     enforce(!closed, "Client is closed");
     enforce(!idOrName.empty, "Container ID or name cannot be empty");
 
@@ -218,7 +218,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Pulls an image from a registry.
-  override void pullImage(string fromImage, string tag = "latest") {
+  void pullImage(string fromImage, string tag = "latest") {
     enforce(!closed, "Client is closed");
     enforce(!fromImage.empty, "Image name cannot be empty");
 
@@ -231,7 +231,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Removes an image.
-  override void removeImage(string image, bool force = false) {
+  void removeImage(string image, bool force = false) {
     enforce(!closed, "Client is closed");
     enforce(!image.empty, "Image name cannot be empty");
 
@@ -296,7 +296,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Creates a new pod.
-  override string createPod(string name, Json config_) {
+  string createPod(string name, Json config_) {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Pod name cannot be empty");
 
@@ -310,7 +310,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Starts a pod.
-  override void startPod(string nameOrId) {
+  void startPod(string nameOrId) {
     enforce(!closed, "Client is closed");
     enforce(!nameOrId.empty, "Pod name or ID cannot be empty");
 
@@ -324,7 +324,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Stops a pod.
-  override void stopPod(string nameOrId, int timeout = 10) {
+  void stopPod(string nameOrId, int timeout = 10) {
     enforce(!closed, "Client is closed");
     enforce(!nameOrId.empty, "Pod name or ID cannot be empty");
 
@@ -338,7 +338,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Removes a pod.
-  override void removePod(string nameOrId, bool force = false) {
+  void removePod(string nameOrId, bool force = false) {
     enforce(!closed, "Client is closed");
     enforce(!nameOrId.empty, "Pod name or ID cannot be empty");
 
@@ -381,7 +381,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Creates a volume.
-  override string createVolume(string name, string driver = "local", string[string] options = null) {
+  string createVolume(string name, string driver = "local", string[string] options = null) {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Volume name cannot be empty");
 
@@ -408,7 +408,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Removes a volume.
-  override void removeVolume(string name, bool force = false) {
+  void removeVolume(string name, bool force = false) {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Volume name cannot be empty");
 
@@ -450,7 +450,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Creates a network.
-  override string createNetwork(string name, string driver = "bridge") {
+  string createNetwork(string name, string driver = "bridge") {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Network name cannot be empty");
 
@@ -468,7 +468,7 @@ class PodmanClient : IPodmanClient {
   }
 
   /// Removes a network.
-  override void removeNetwork(string name) {
+  void removeNetwork(string name) {
     enforce(!closed, "Client is closed");
     enforce(!name.empty, "Network name cannot be empty");
 

@@ -10,7 +10,7 @@ public {
     import uim.oop;
     
     // Import Podman library
-    import uim.podman;
+    import uim.podman.library;
     
     // Import GTK
     import gtk.Main;
@@ -41,7 +41,7 @@ public {
     import gdk.Event;
     import glib.Timeout;
     import gio.Application : GioApplication = Application;
-    import gio.ApplicationFlags : GApplicationFlags;
+    import gio.c.types;;
 }
 
 public {
