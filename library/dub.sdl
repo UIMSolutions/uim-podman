@@ -1,13 +1,13 @@
 // Metadata
-name "podman"
+name "library"
 description "uim library for Podman API client with vibe.d"
-homepage "https://www.sueel.de/uim/framework/podman"
+// homepage "https://www.sueel.de/uim/podman"
 authors "Ozan Nurettin Süel"
 copyright "Copyright © 2018 - 2026, ONS"
 license "Apache-2.0"
 
 // Target
-targetName "uim-podman"
+targetName "uim-podman-library"
 targetType "library"
 
 // Dependencies
