@@ -7,7 +7,7 @@ mixin(ShowModule!());
 @safe:
 
 /// Represents a Podman image.
-struct Image {
+struct PodmanImage {
   string id;
   string[] repoTags;
   long created;

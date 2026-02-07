@@ -6,12 +6,11 @@
 module uim.podman.desktop.models.images;
 
 import uim.podman.desktop;
-import gtk.Image : Image = GTKImage;
 
 /// Image model for data management.
 class ImageModel {
     private PodmanClient client;
-    private GTKImage[] items;
+    private uim.podman.Image[] items;
 
     this(PodmanClient client) {
         this.client = client;
@@ -25,7 +24,7 @@ class ImageModel {
         }
     }
 
-    GTKImage[] getItems() {
+    uim.podman.Image[] getItems() {
         return items;
     }
 }

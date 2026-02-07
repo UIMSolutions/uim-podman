@@ -41,7 +41,7 @@ interface IPodmanClient {
   void unpauseContainer(string idOrName);
 
   /// Lists all images
-  Image[] listImages();
+  PodmanImage[] listImages();
 
   /// Pulls an image from a registry
   void pullImage(string fromImage, string tag = "latest");

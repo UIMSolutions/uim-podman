@@ -189,17 +189,17 @@ class PodmanClient : IPodmanClient {
     cache.invalidate("container:" ~ idOrName);
   }
 
-  // Image operations
+  // PodmanImage operations
 
   /// Lists all images.
-  override Image[] listImages() {
+  override PodmanImage[] listImages() {
     enforce(!closed, "Client is closed");
 
     if (cache.has("images:all")) {
       Json cached = cache.get("images:all");
-      Image[] results;
+      PodmanImage[] results;
       if (cached.isArray) {
-        results = cached.toArray.map!(item => Image(item)).array;
+        results = cached.toArray.map!(item => PodmanImage(item)).array;
       }
       return results;
     }
@@ -209,9 +209,9 @@ class PodmanClient : IPodmanClient {
     enforce(response.success && response.statusCode == 200,
       createException(response.statusCode, "Failed to list images", config.endpoint, path));
 
-    Image[] results;
+    PodmanImage[] results;
     if (response.data.isArray) {
-      results = response.data.toArray.map!(item => Image(item)).array;
+      results = response.data.toArray.map!(item => PodmanImage(item)).array;
       cache.set("images:all", response.data, config.cacheTtlSeconds);
     }
     return results;
