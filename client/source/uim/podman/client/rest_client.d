@@ -1,4 +1,4 @@
-module uim.podman.desktop.client.rest_client;
+module uim.podman.client.rest_client;
 
 import std.conv : to;
 import std.json : Json, parseJsonString;
@@ -7,9 +7,9 @@ import vibe.http.client : requestHTTP, HTTPClientRequest, HTTPClientResponse;
 import vibe.http.common : HTTPMethod;
 import vibe.data.url : URL;
 
-import uim.podman.desktop.client.config;
-import uim.podman.desktop.client.dtos;
-import uim.podman.desktop.client.exceptions;
+import uim.podman.client.config;
+import uim.podman.client.dtos;
+import uim.podman.client.exceptions;
 
 @safe:
 

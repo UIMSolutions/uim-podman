@@ -1,9 +1,7 @@
 module uim.podman.server.serialization;
 
-import uim.podman.library;
-import uim.podman.library.helpers.general;
-
-@safe:
+import uim.podman.server;
+@safe:;
 
 Json containerToJson(PodmanContainer container) {
   Json obj = Json([

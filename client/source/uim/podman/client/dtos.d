@@ -1,4 +1,4 @@
-module uim.podman.desktop.client.dtos;
+module uim.podman.client.dtos;
 
 import std.json : Json;
 

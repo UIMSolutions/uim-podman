@@ -1,6 +1,8 @@
-module uim.podman.desktop.client;
+module uim.podman.client;
 
-public import uim.podman.desktop.client.config;
-public import uim.podman.desktop.client.dtos;
-public import uim.podman.desktop.client.exceptions;
-public import uim.podman.desktop.client.rest_client;
+public {
+    import uim.podman.client.config;
+    import uim.podman.client.dtos;
+    import uim.podman.client.exceptions;
+    import uim.podman.client.rest_client;
+}

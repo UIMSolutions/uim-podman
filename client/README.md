@@ -5,7 +5,7 @@ REST web client for the UIM Podman server.
 ## Usage
 
 ```d
-import uim.podman.desktop.client;
+import uim.podman.client;
 import std.json : Json;
 
 void main() {

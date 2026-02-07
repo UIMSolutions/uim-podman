@@ -1,4 +1,4 @@
-module uim.podman.desktop.client.exceptions;
+module uim.podman.client.exceptions;
 
 @safe:
 

@@ -1,4 +1,4 @@
-module uim.podman.desktop.client.config;
+module uim.podman.client.config;
 
 import std.conv : to;
 import std.process : environment;
